@@ -1,0 +1,23 @@
+.column {
+    border: dashed transparent 4px;
+}
+
+.column.drop {
+    border-color: rgb(223, 220, 220);
+}
+
+.border-top.To-Do {
+    border-color: #D67BFF !important;
+}
+
+.border-top.In.Progress {
+    border-color: #FFB6D9 !important;
+}
+
+.border-top.For.Testing {
+    border-color: #FEFFAC !important;
+}
+
+.border-top.Done {
+    border-color: #45FFCA !important;
+}

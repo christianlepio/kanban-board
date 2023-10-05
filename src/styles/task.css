@@ -1,0 +1,32 @@
+.task{
+    cursor: move;
+}
+
+/* .task.dropTask{
+    box-shadow: 2px 2px 5px red !important;
+} */
+
+.To-Do {
+    color: #D67BFF !important;
+}
+
+.In.Progress {
+    color: #FFB6D9 !important;
+}
+
+.For.Testing {
+    color: #FEFFAC !important;
+}
+
+.Done {
+    color: #45FFCA !important;
+}
+
+.modal{
+    cursor: context-menu;
+}
+
+.option-hover:hover{
+    background-color: var(--bs-light) !important;
+    cursor: pointer;
+}
