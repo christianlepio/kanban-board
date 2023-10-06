@@ -89,8 +89,7 @@ const Columns = ({state}) => {
                 </div>
 
                 <div 
-                    className={classNames("overflow-y-auto rounded-3 mt-2 px-2 column "+(state), {drop: drop})} 
-                    style={{maxHeight: '65vh', minHeight: '40vh'}}
+                    className={classNames("overflow-y-auto taskColus rounded-3 mt-2 px-2 column "+(state), {drop: drop})} 
                 >
                     {tasks.length > 0 && 
                         tasks.map((item, index) => {

@@ -22,6 +22,19 @@
     border-color: #45FFCA !important;
 }
 
-.taskCol{
+.taskCol {
     background-color: var(--bs-light-bg-subtle);
 }
+
+.taskColus {
+    max-height: 65vh;
+    min-height: 40vh;
+}
+
+/* `sm` applies to x-small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) { 
+    .taskColus {
+        max-height: 82vh;
+        min-height: 0vh;
+    }
+ }
