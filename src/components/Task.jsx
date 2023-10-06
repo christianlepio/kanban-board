@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../styles/task.css'
 import { useStore } from '../stores/store'
 import classNames from 'classnames' 
 import { format } from 'date-fns'
 import EditTaskModal from './EditTaskModal'
+import Swal from 'sweetalert2';
 
 const Task = ({ item, dropTask, setDropTask }) => {
   const task = useStore((store) => 
@@ -15,13 +16,41 @@ const Task = ({ item, dropTask, setDropTask }) => {
     moveTask, 
     setDraggedTask, 
     deleteTask, 
-    setDateFormat 
+    setDateFormat,
+    displaySwalFire 
   } = useStore(store => store)
+
+  const [indicator, setIndicator] = useState(false)
+
+  useEffect(()=>{
+      setIndicator(indicator)
+  },[indicator])
+
+  const handleDeleteTask = (id, title) => {
+    let delTitle = title
+    Swal.fire({
+      title: `Delete task "${delTitle}"?`,
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      // color: swalColor,
+      // background: swalBg, 
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then(res => {
+      if (res.isConfirmed) {
+        deleteTask(id)
+        displaySwalFire('Task deleted!', `Task '${delTitle}' was successfully deleted!`, 3000)
+      }
+    })
+  }
 
   const handleMoveTask = (id, title, description, state) =>{
     const date = new Date()
     const dateFomatted = format(date, 'yyyyMMddHHmmssT')
     moveTask(id, title, description, state, dateFomatted)
+    displaySwalFire('Status changed!', `Task '${title}' has been moved to state '${state}'!`, 4000)
   }
 
   const handleDragStart = () => {
@@ -84,13 +113,14 @@ const Task = ({ item, dropTask, setDropTask }) => {
                                   className={"list-group-item option-hover fw-medium text-secondary"}                                   
                                   data-bs-target={'#modalEdit'+task.id}
                                   data-bs-toggle="modal"
+                                  onClick={() => setIndicator(!indicator)}
                                 >
                                     <i className="bi bi-pencil-square text-warning"></i> Edit
                                 </li>
                                 <li 
                                   className={"list-group-item option-hover fw-medium text-secondary"} 
                                   data-bs-dismiss="modal" 
-                                  onClick={() => deleteTask(task.id)}
+                                  onClick={() => handleDeleteTask(task.id, task.title)}
                                 >
                                     <i className="bi bi-x-circle text-danger"></i> Delete
                                 </li>
@@ -131,6 +161,7 @@ const Task = ({ item, dropTask, setDropTask }) => {
             
             <EditTaskModal 
               modalItems={task}
+              indicator={indicator}
             />
 
           </div>

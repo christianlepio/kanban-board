@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { format } from 'date-fns'
+import Swal from 'sweetalert2';
 //install using npm i uuid
 import { v4 as uuid } from 'uuid'
 //devtools is for debugging while persist is to save task in local storage
@@ -90,6 +91,7 @@ const store = (set) => ({
             'moveTask'
     ),
 
+    //update task
     updateTask: (id, title, description) => set(store => ({
         tasks: store.tasks.map(task => {
             if (task.id === id && (task.title !== title || task.description !== description)) {
@@ -106,6 +108,18 @@ const store = (set) => ({
         false, 
         'deleteTask'
     ), //delete task to array tasks: []
+
+    displaySwalFire: (swalTitle, swalText, oras) => { 
+        Swal.fire({
+            icon: 'success',
+            title: `${swalTitle}`,
+            text: `${swalText}`,
+            // color: swalColor,
+            // background: swalBg, 
+            showConfirmButton: false,
+            timer: oras
+        });
+    }
 
 })
 

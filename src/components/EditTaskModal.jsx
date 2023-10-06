@@ -1,21 +1,92 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useStore } from '../stores/store'
+import Swal from 'sweetalert2';
 
 const EditTaskModal = (children) => {
-    const { updateTask } = useStore(store => store)
-    
+    const { 
+        tasks, 
+        isTaskExist, 
+        validateTask, 
+        setIsTaskExist, 
+        updateTask, 
+        displaySwalFire 
+    } = useStore(store => store)
+
     const editTaskRef = useRef()
     const [editTaskTitle, setEditTaskTitle] = useState(children.modalItems.title)
     const [editTaskDesc, setEditTaskDesc] = useState(children.modalItems.description) 
     const [errMsg, setErrMsg] = useState('')
+    const [isModalClose, setIsModalClose] = useState(false)
+
+    useEffect(() => {
+        setEditTaskTitle(children.modalItems.title)
+        setEditTaskDesc(children.modalItems.description)
+
+        let isModalShow =  document.querySelector(".show")
+        setTimeout(() => {
+            isModalShow !== null && editTaskRef.current.focus()
+        }, 500)
+    }, [children.indicator])   
+
+    useEffect(() => {     
+        const charLen = editTaskTitle.trim().length
+
+        setErrMsg('')  
+        setIsTaskExist
+        setIsModalClose(false)
+
+        if (charLen === 0) 
+            setErrMsg('Title field is required!')
+        else if(charLen <= 3) 
+            setErrMsg('Title must be more than 3 characters!')
+        else if (charLen > 20)
+            setErrMsg('Title must be 3-20 characters only!')
+        else {
+            if (children.modalItems.title !== editTaskTitle.trim()) {
+                validateTask(editTaskTitle)
+                if (isTaskExist) {
+                    setErrMsg('Task title already exist!')
+                }
+                else    
+                    setIsModalClose(true)
+            }
+
+            if (children.modalItems.description !== editTaskDesc.trim()) {
+                setIsModalClose(true)
+            }
+        }
+    }, [editTaskTitle, editTaskDesc, isTaskExist, tasks, children.indicator]) 
 
     const handleEditTask = (e) => {
         e.preventDefault()
-        updateTask(
-            children.modalItems.id, 
-            editTaskTitle.trim(), 
-            editTaskDesc.trim()
-        )
+        if (!errMsg) {
+            if (editTaskTitle.trim().length !== 0) {
+                Swal.fire({
+                    title: `Update task "${children.modalItems.title}"?`,
+                    text: `Are you sure you want to modify task '${children.modalItems.title}'?`,
+                    icon: 'question',
+                    // color: swalColor,
+                    // background: swalBg, 
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, modify it!'
+                  }).then(res => {
+                    if (res.isConfirmed) {
+                        setIsTaskExist()
+                        setErrMsg('')
+                        updateTask(
+                            children.modalItems.id, 
+                            editTaskTitle.trim(), 
+                            editTaskDesc.trim()
+                        )
+                        displaySwalFire('Task modified!', 'Task was successfully modified!', 3000)
+                    }
+                  })
+            }else
+                editTaskRef.current.focus()
+        }else
+            editTaskRef.current.focus()
     }
 
     return (
@@ -25,7 +96,7 @@ const EditTaskModal = (children) => {
                 <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div className={"modal-content border-top border-info border-4 border-start-0 border-bottom-0 border-end-0"}>
                         <div className="modal-header">
-                            <h1 className="modal-title fs-5" id="exampleModalLabel"><i className="bi bi-pencil-square"></i> Update '{children.modalItems.title}'</h1>
+                            <h1 className="modal-title fs-5" id="exampleModalLabel"><i className="bi bi-pencil-square"></i> Update task "{children.modalItems.title}"</h1>
                             <button 
                                 type="button" 
                                 className="btn-close" 
@@ -50,7 +121,7 @@ const EditTaskModal = (children) => {
                                     />
                                     <label htmlFor="floatingInput">Title</label>
                                 </div>
-                                {/* {errMsg ? <p className='text-sm text-danger fw-lighter text-center my-2'>{errMsg}</p> : null} */}
+                                {errMsg ? <p className='text-sm text-danger fw-lighter text-center my-2'>{errMsg}</p> : null}
                                 <div className="form-floating my-3">
                                     <textarea 
                                         className="form-control" 
@@ -70,10 +141,12 @@ const EditTaskModal = (children) => {
                                     type="button" 
                                     className="btn btn-sm btn-secondary" 
                                     data-bs-target={'#modal'+children.modalItems.id}
-                                    data-bs-toggle="modal">Close</button>
+                                    data-bs-toggle="modal">Cancel</button>
                                 <button 
                                     type="submit" 
-                                    className="btn btn-sm btn-success"                                        
+                                    className="btn btn-sm btn-success" 
+                                    data-bs-dismiss="modal" 
+                                    disabled={isModalClose ? false : true}                                    
                                 >
                                     Save
                                 </button>

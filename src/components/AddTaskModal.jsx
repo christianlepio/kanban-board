@@ -8,19 +8,21 @@ const AddTaskModal = ({projModId, indicator}) => {
             setDateFormat, 
             addTask, 
             validateTask, 
-            setIsTaskExist 
+            setIsTaskExist, 
+            displaySwalFire 
         } = useStore(store => store)
 
     const taskRef = useRef()
     const [taskTitle, setTaskTitle] = useState('')
     const [taskDesc, setTaskDesc] = useState('') 
     const [errMsg, setErrMsg] = useState('')
+    const [isModalClose, setIsModalClose] = useState(false)
 
     useEffect(() => {
         let isModalShow =  document.querySelector(".show")
         setTimeout(() => {
             isModalShow !== null && taskRef.current.focus()
-        }, 600)
+        }, 500)
     }, [indicator])
 
     useEffect(() => {     
@@ -28,6 +30,7 @@ const AddTaskModal = ({projModId, indicator}) => {
 
         setErrMsg('')  
         setIsTaskExist
+        setIsModalClose(false)
 
         if (charLen === 0) 
             setErrMsg('Title field is required!')
@@ -39,6 +42,8 @@ const AddTaskModal = ({projModId, indicator}) => {
             validateTask(taskTitle)
             if (isTaskExist) 
                 setErrMsg('Task title already exist!')
+            else
+                setIsModalClose(true)
         }
     }, [taskTitle, isTaskExist, tasks, indicator])
 
@@ -52,6 +57,7 @@ const AddTaskModal = ({projModId, indicator}) => {
                 setTaskDesc('')
                 setIsTaskExist()
                 setErrMsg('')
+                displaySwalFire('Task added!', `New task '${taskTitle}' has been added!`, 3000)
             }else
                 taskRef.current.focus()
         }else
@@ -61,7 +67,7 @@ const AddTaskModal = ({projModId, indicator}) => {
     return (
         <>
             {/* this is modal dialog box */}
-            <div className="modal fade" id={projModId} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id={projModId} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div className={"modal-content border-top border-info border-4 border-start-0 border-bottom-0 border-end-0"}>
                         <div className="modal-header">
@@ -103,7 +109,8 @@ const AddTaskModal = ({projModId, indicator}) => {
                                 <button type="button" className="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <button 
                                     type="submit" 
-                                    className="btn btn-sm btn-success"                                        
+                                    className="btn btn-sm btn-success"      
+                                    disabled={isModalClose ? false : true}                                     
                                 >
                                     Save
                                 </button>

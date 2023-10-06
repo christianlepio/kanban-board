@@ -6,6 +6,7 @@ const ProjectModal = ({ projModId, indicator }) => {
     const [project, setProject] = useState('')
     const [isClose, setIsClose] = useState(false)
     const [errMsg, setErrMsg] = useState('')
+    const [isModalClose, setIsModalClose] = useState(false)
 
     const { projName, setProjName } = useStore(store => store) 
 
@@ -13,7 +14,7 @@ const ProjectModal = ({ projModId, indicator }) => {
         let isModalShow =  document.querySelector(".show")
         setTimeout(() => {
             isModalShow !== null && projRef.current.focus()
-        }, 600)
+        }, 500)
     }, [indicator])    
 
     useEffect(()=>{
@@ -24,6 +25,7 @@ const ProjectModal = ({ projModId, indicator }) => {
 
     useEffect(() => {
         setErrMsg('')
+        setIsModalClose(false)
 
         const charLen = project.trim().length
 
@@ -33,6 +35,12 @@ const ProjectModal = ({ projModId, indicator }) => {
             setErrMsg('Project name must be more than 3 characters!')
         else if (charLen > 20)
             setErrMsg('Project name must be 3-20 characters only!')
+        else{
+            if (project.trim() !== projName) {
+                setIsModalClose(true)
+            }
+        } 
+            
     },[indicator, project])
 
     const submitProj = (e) => {
@@ -89,8 +97,8 @@ const ProjectModal = ({ projModId, indicator }) => {
                                 <button 
                                     type="submit" 
                                     className="btn btn-sm btn-success"      
-                                        
                                     data-bs-dismiss={!errMsg ? 'modal' : null}
+                                    disabled={isModalClose ? false : true}
                                 >
                                     Save
                                 </button>
