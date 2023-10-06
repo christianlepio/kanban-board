@@ -9,7 +9,9 @@ const EditTaskModal = (children) => {
         validateTask, 
         setIsTaskExist, 
         updateTask, 
-        displaySwalFire 
+        displaySwalFire, 
+        swalColor, 
+        swalBg  
     } = useStore(store => store)
 
     const editTaskRef = useRef()
@@ -65,8 +67,8 @@ const EditTaskModal = (children) => {
                     title: `Update task "${children.modalItems.title}"?`,
                     text: `Are you sure you want to modify task '${children.modalItems.title}'?`,
                     icon: 'question',
-                    // color: swalColor,
-                    // background: swalBg, 
+                    color: swalColor,
+                    background: swalBg, 
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
@@ -80,7 +82,13 @@ const EditTaskModal = (children) => {
                             editTaskTitle.trim(), 
                             editTaskDesc.trim()
                         )
-                        displaySwalFire('Task modified!', 'Task was successfully modified!', 3000)
+                        displaySwalFire(
+                            'Task modified!', 
+                            'Task was successfully modified!', 
+                            3000, 
+                            swalColor, 
+                            swalBg 
+                        )
                     }
                   })
             }else

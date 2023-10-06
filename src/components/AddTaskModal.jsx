@@ -9,7 +9,9 @@ const AddTaskModal = ({projModId, indicator}) => {
             addTask, 
             validateTask, 
             setIsTaskExist, 
-            displaySwalFire 
+            displaySwalFire,
+            swalColor, 
+            swalBg  
         } = useStore(store => store)
 
     const taskRef = useRef()
@@ -57,7 +59,13 @@ const AddTaskModal = ({projModId, indicator}) => {
                 setTaskDesc('')
                 setIsTaskExist()
                 setErrMsg('')
-                displaySwalFire('Task added!', `New task '${taskTitle}' has been added!`, 3000)
+                displaySwalFire(
+                    'Task added!', 
+                    `New task '${taskTitle}' has been added!`, 
+                    3000, 
+                    swalColor, 
+                    swalBg 
+                )
             }else
                 taskRef.current.focus()
         }else

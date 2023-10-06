@@ -21,3 +21,7 @@
 .border-top.Done {
     border-color: #45FFCA !important;
 }
+
+.taskCol{
+    background-color: var(--bs-light-bg-subtle);
+}

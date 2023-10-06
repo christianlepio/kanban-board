@@ -10,8 +10,11 @@ const store = (set) => ({
     projName: null, 
     tasks: [],
     isTaskExist: false, 
+    isDarkMode: false,
     draggedTask: [],
     formatDate: null, 
+    swalColor: null,
+    swalBg: null,
     arrState: [
         {
         state: 'To-Do',
@@ -35,6 +38,18 @@ const store = (set) => ({
         projName: projTitle
     }),
 
+    setIsDarkMode: (val) => set({
+        isDarkMode: val
+    }),
+
+    setSwalColor: (colorVal) => set({
+        swalColor: colorVal
+    }),
+
+    setSwalBg: (bgColorVal) => set({
+        swalBg: bgColorVal
+    }),
+
     setDateFormat: () => {
         const date = new Date()
         const dateFomatted = format(date, 'yyyyMMddHHmmssT')
@@ -56,7 +71,7 @@ const store = (set) => ({
                 }, ...store.tasks
             ]
         }))
-    },
+    }, //add new task
 
     validateTask: (title) => {
         title = title.trim().toUpperCase()
@@ -64,7 +79,7 @@ const store = (set) => ({
         set(store => ({
             isTaskExist: store.tasks.some(data => data.title.toUpperCase() === title)
         }))
-    },
+    }, //validate if task already exist
 
     setIsTaskExist: () => set({
         isTaskExist: false
@@ -109,18 +124,18 @@ const store = (set) => ({
         'deleteTask'
     ), //delete task to array tasks: []
 
-    displaySwalFire: (swalTitle, swalText, oras) => { 
+    displaySwalFire: (swalTitle, swalText, oras, txtClr, txtBg) => { 
         Swal.fire({
             icon: 'success',
             title: `${swalTitle}`,
             text: `${swalText}`,
-            // color: swalColor,
-            // background: swalBg, 
+            color: txtClr, //'#f8f9fa'
+            background: txtBg, //'#212529' 
             showConfirmButton: false,
             timer: oras
         });
-    }
+    }//display alert messages
 
 })
 
-export const useStore = create(devtools(store), {name: 'store'})
+export const useStore = create(persist(devtools(store), {name: 'store'}))

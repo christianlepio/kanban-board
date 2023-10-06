@@ -12,3 +12,12 @@
     background-color: var(--bs-light);
     cursor: pointer;
 }
+
+.hover-pen1:hover{
+    background-color: var(--bs-secondary);
+    cursor: pointer;
+}
+
+.projHeader{
+    background-color: var(--bs-light-bg-subtle);
+}

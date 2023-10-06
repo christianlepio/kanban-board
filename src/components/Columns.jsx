@@ -12,7 +12,7 @@ const Columns = ({state}) => {
 
     let { tasks } = useStore(store => store)
 
-    const { draggedTask, setDraggedTask, moveTask, setDateFormat, formatDate } = useStore(store => store)
+    const { draggedTask, setDraggedTask, moveTask, setDateFormat, formatDate, isDarkMode } = useStore(store => store)
     const { icon } = useStore(store => 
         store.arrState.find(item => item.state === state )
     )
@@ -73,15 +73,15 @@ const Columns = ({state}) => {
                 onDrop={(e) => handleDrop(e)} 
             >
                 <div 
-                    className={"rounded-3 shadow-sm border-top border-4 "+(state)} 
+                    className={(isDarkMode ? 'taskCol' : null)+" rounded-3 shadow-sm border-top border-4 "+(state)} 
                     
                 >
                     <div className='d-flex justify-content-between py-3 px-3'>
-                        <h6 className="fs-6 text-secondary align-self-end">
+                        <h6 className={"fs-6 align-self-end " + (!isDarkMode ? 'text-secondary' : null)}>
                             &nbsp; <i className={icon}></i> {state}
                         </h6>
                         <span 
-                            className='badge text-secondary bg-light lh-lg rounded-pill'
+                            className={'badge lh-lg rounded-pill ' + (!isDarkMode ? 'text-secondary bg-light' : 'border')}
                         >
                             &nbsp; {taskCount} &nbsp;
                         </span>

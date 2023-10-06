@@ -17,7 +17,10 @@ const Task = ({ item, dropTask, setDropTask }) => {
     setDraggedTask, 
     deleteTask, 
     setDateFormat,
-    displaySwalFire 
+    displaySwalFire, 
+    isDarkMode, 
+    swalColor, 
+    swalBg
   } = useStore(store => store)
 
   const [indicator, setIndicator] = useState(false)
@@ -32,8 +35,8 @@ const Task = ({ item, dropTask, setDropTask }) => {
       title: `Delete task "${delTitle}"?`,
       text: "You won't be able to revert this!",
       icon: 'warning',
-      // color: swalColor,
-      // background: swalBg, 
+      color: swalColor,
+      background: swalBg, 
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
@@ -41,7 +44,13 @@ const Task = ({ item, dropTask, setDropTask }) => {
     }).then(res => {
       if (res.isConfirmed) {
         deleteTask(id)
-        displaySwalFire('Task deleted!', `Task '${delTitle}' was successfully deleted!`, 3000)
+        displaySwalFire(
+          'Task deleted!', 
+          `Task '${delTitle}' was successfully deleted!`, 
+          3000, 
+          swalColor, 
+          swalBg
+        )
       }
     })
   }
@@ -50,7 +59,13 @@ const Task = ({ item, dropTask, setDropTask }) => {
     const date = new Date()
     const dateFomatted = format(date, 'yyyyMMddHHmmssT')
     moveTask(id, title, description, state, dateFomatted)
-    displaySwalFire('Status changed!', `Task '${title}' has been moved to state '${state}'!`, 4000)
+    displaySwalFire(
+      'Status changed!', 
+      `Task '${title}' has been moved to state '${state}'!`, 
+      4000,
+      swalColor,
+      swalBg 
+    )
   }
 
   const handleDragStart = () => {
@@ -83,7 +98,7 @@ const Task = ({ item, dropTask, setDropTask }) => {
           <div>
             <button 
               type='button' 
-              className="btn btn-sm btn-light" 
+              className={"btn btn-sm rounded-3 " + (!isDarkMode ? 'btn-light' : 'btn-outline-secondary')} 
               data-bs-toggle="modal" 
               data-bs-target={'#modal'+task.id}
             >
@@ -110,7 +125,7 @@ const Task = ({ item, dropTask, setDropTask }) => {
                             </p>
                             <ul className={"list-group list-group-flush border rounded-4 shadow-sm"}>
                                 <li 
-                                  className={"list-group-item option-hover fw-medium text-secondary"}                                   
+                                  className={(isDarkMode ? 'option-hover1' : 'option-hover') + " list-group-item fw-medium text-secondary"}                                   
                                   data-bs-target={'#modalEdit'+task.id}
                                   data-bs-toggle="modal"
                                   onClick={() => setIndicator(!indicator)}
@@ -118,14 +133,14 @@ const Task = ({ item, dropTask, setDropTask }) => {
                                     <i className="bi bi-pencil-square text-warning"></i> Edit
                                 </li>
                                 <li 
-                                  className={"list-group-item option-hover fw-medium text-secondary"} 
+                                  className={(isDarkMode ? 'option-hover1' : 'option-hover') + " list-group-item fw-medium text-secondary"} 
                                   data-bs-dismiss="modal" 
                                   onClick={() => handleDeleteTask(task.id, task.title)}
                                 >
                                     <i className="bi bi-x-circle text-danger"></i> Delete
                                 </li>
                                 <li 
-                                  className={"list-group-item option-hover fw-medium text-secondary"} 
+                                  className={(isDarkMode ? 'option-hover1' : 'option-hover') + " list-group-item fw-medium text-secondary"} 
                                   type='button' 
                                   data-bs-toggle="collapse" 
                                   data-bs-target={"#collapse"+task.id} 
@@ -140,7 +155,7 @@ const Task = ({ item, dropTask, setDropTask }) => {
                                           return(
                                             <li 
                                               key={index} 
-                                              className='list-group-item option-hover fw-medium text-secondary' 
+                                              className={(isDarkMode ? 'option-hover1' : 'option-hover') + ' list-group-item fw-medium text-secondary'} 
                                               data-bs-dismiss="modal"
                                               onClick={() => handleMoveTask(task.id, task.title, task.description, dataState.state)}
                                             >
