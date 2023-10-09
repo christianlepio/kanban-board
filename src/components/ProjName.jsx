@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import '../styles/toggleTheme.css'
-// import LogoKo from '../assets/imgs/logoko.jpg'
 import ProjectModal from './ProjectModal'
 import AddTaskModal from './AddTaskModal'
 import { useStore } from '../stores/store'
