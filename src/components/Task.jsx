@@ -5,6 +5,8 @@ import classNames from 'classnames'
 import { format } from 'date-fns'
 import EditTaskModal from './EditTaskModal'
 import Swal from 'sweetalert2';
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 
 const Task = ({ item, dropTask, setDropTask }) => {
   const task = useStore((store) => 
@@ -68,30 +70,56 @@ const Task = ({ item, dropTask, setDropTask }) => {
     )
   }
 
-  const handleDragStart = () => {
-    setDraggedTask(task.id, task.title, task.description)
-    setDropTask(true)
-    setDateFormat()
-  } //The user starts to drag an element
+  // const handleDragStart = () => {
+  //   setDraggedTask(task.id, task.title, task.description)
+  //   setDropTask(true)
+  //   setDateFormat()
+  // } //The user starts to drag an element
 
-  const handleDragEnd = () => {
-    setDraggedTask([])
-    setDropTask(false)
-    setDateFormat()
-  } //The user has finished dragging an element
+  // const handleDragEnd = () => {
+  //   setDraggedTask([])
+  //   setDropTask(false)
+  //   setDateFormat()
+  // } //The user has finished dragging an element
+
+  const { 
+    setNodeRef, 
+    attributes, 
+    listeners, 
+    transform, 
+    transition, 
+    isDragging 
+  } = useSortable({
+      id: task.id,
+      data: {
+          type: "Task", 
+          task,
+      }
+  })
+
+  const style = {
+      transition,
+      transform: CSS.Transform.toString(transform),
+  }
 
   return (
     <>
       <div 
+        ref={setNodeRef}
+        style={style}
         className={classNames("card mt-2 border-light-subtle mb-3 shadow-sm task ", {dropTask: dropTask})}
-        draggable 
-        onDragStart={handleDragStart} 
-        onDragEnd={handleDragEnd} 
+        // draggable 
+        // onDragStart={handleDragStart} 
+        // onDragEnd={handleDragEnd} 
       >
         <div className="card-body">
           <div className='d-flex justify-content-between'>
             <div className='align-self-center'><h6 className="card-title fs-6 text-secondary">{task.title}</h6></div>
-            <div className='rounded-3 border align-self-start'>
+            <div 
+              {...attributes}
+              {...listeners}
+              className='rounded-3 border align-self-start'
+            >
               <i className="fa-solid fa-grip-vertical text-secondary mt-1 mx-2 lh-sm"></i>
             </div>
           </div>          
