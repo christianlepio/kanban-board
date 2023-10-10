@@ -107,7 +107,7 @@ const Task = ({ item, dropTask, setDropTask }) => {
       <div 
         ref={setNodeRef}
         style={style}
-        className={classNames("card mt-2 border-light-subtle mb-3 shadow-sm task ", {dropTask: dropTask})}
+        className={classNames("card mt-2 border-light-subtle mb-3 shadow-sm ", {dropTask: dropTask})}
         // draggable 
         // onDragStart={handleDragStart} 
         // onDragEnd={handleDragEnd} 
@@ -118,7 +118,7 @@ const Task = ({ item, dropTask, setDropTask }) => {
             <div 
               {...attributes}
               {...listeners}
-              className='rounded-3 border align-self-start'
+              className='rounded-3 border align-self-start task-move'
             >
               <i className="fa-solid fa-grip-vertical text-secondary mt-1 mx-2 lh-sm"></i>
             </div>

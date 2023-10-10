@@ -23,10 +23,10 @@ const Columns = ({state}) => {
         [tasks, state]
     )
 
-    tasks = useMemo(
-        () => tasks = [...tasks].sort((a, b) => b.date - a.date), 
-        [tasks, state]
-    )
+    // tasks = useMemo(
+    //     () => tasks = [...tasks].sort((a, b) => b.date - a.date), 
+    //     [tasks, state]
+    // )
 
     const tasksIds = useMemo(() => tasks.map(task => task.id), [tasks])
 

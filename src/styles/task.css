@@ -1,5 +1,5 @@
-.task{
-    cursor: move;
+.task-move{
+    cursor: grab !important;
 }
 
 /* .task.dropTask{
