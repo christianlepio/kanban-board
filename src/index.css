@@ -21,7 +21,7 @@ footer {
 }
 
 ::-webkit-scrollbar {
-  width: 9px;
+  width: 5px;
 }
 
 ::-webkit-scrollbar:horizontal {
@@ -30,5 +30,5 @@ footer {
 
 ::-webkit-scrollbar-thumb {
   background-color: rgb(161, 156, 156);
-  border-radius: 10px;
+  border-radius: 14px;
 }

@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import '../styles/task.css'
 import { useStore } from '../stores/store'
-import classNames from 'classnames' 
 import { format } from 'date-fns'
 import EditTaskModal from './EditTaskModal'
 import Swal from 'sweetalert2';
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
-const Task = ({ item, dropTask, setDropTask }) => {
+const Task = ({ item }) => {
   const task = useStore((store) => 
         store.tasks.find((task) => task.id === item.id)
         )
@@ -16,9 +15,7 @@ const Task = ({ item, dropTask, setDropTask }) => {
   const { 
     arrState, 
     moveTask, 
-    setDraggedTask, 
     deleteTask, 
-    setDateFormat,
     displaySwalFire, 
     isDarkMode, 
     swalColor, 
@@ -70,18 +67,6 @@ const Task = ({ item, dropTask, setDropTask }) => {
     )
   }
 
-  // const handleDragStart = () => {
-  //   setDraggedTask(task.id, task.title, task.description)
-  //   setDropTask(true)
-  //   setDateFormat()
-  // } //The user starts to drag an element
-
-  // const handleDragEnd = () => {
-  //   setDraggedTask([])
-  //   setDropTask(false)
-  //   setDateFormat()
-  // } //The user has finished dragging an element
-
   const { 
     setNodeRef, 
     attributes, 
@@ -102,15 +87,22 @@ const Task = ({ item, dropTask, setDropTask }) => {
       transform: CSS.Transform.toString(transform),
   }
 
+  if (isDragging) {
+    return <div 
+            ref={setNodeRef}
+            style={style}
+            className='border rounded-3 task-drag'
+        >
+
+        </div>
+  }
+
   return (
     <>
       <div 
         ref={setNodeRef}
         style={style}
-        className={classNames("card mt-2 border-light-subtle mb-3 shadow-sm ", {dropTask: dropTask})}
-        // draggable 
-        // onDragStart={handleDragStart} 
-        // onDragEnd={handleDragEnd} 
+        className="card mt-2 border-light-subtle mb-3 shadow-sm"
       >
         <div className="card-body">
           <div className='d-flex justify-content-between'>
@@ -122,10 +114,12 @@ const Task = ({ item, dropTask, setDropTask }) => {
             >
               <i className="fa-solid fa-grip-vertical text-secondary mt-1 mx-2 lh-sm"></i>
             </div>
-          </div>          
-          <p className="card-text fs-6 fst-italic">{task.description.trim().length !== 0 ? 
-            task.description : 'Description...'}
-          </p>
+          </div>  
+          <div className='overflow-y-auto mt-3' style={{maxHeight: '9vh', minHeight: '4vh'}}>        
+            <p className="card-text fs-6 fst-italic">{task.description.trim().length !== 0 ? 
+              task.description : 'Description...'}
+            </p>
+          </div>
         </div>
         <div className="card-footer d-flex justify-content-between text-body-secondary">
           <div>

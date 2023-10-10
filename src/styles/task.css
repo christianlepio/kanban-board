@@ -36,3 +36,7 @@
     color: var(--bs-light) !important;
     cursor: pointer;
 }
+
+.task-drag {
+    height: 26vh;
+}

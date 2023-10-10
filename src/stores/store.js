@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { format } from 'date-fns'
 import Swal from 'sweetalert2';
+import { arrayMove } from '@dnd-kit/sortable'
 //install using npm i uuid
 import { v4 as uuid } from 'uuid'
 //devtools is for debugging while persist is to save task in local storage
@@ -11,7 +12,6 @@ const store = (set) => ({
     tasks: [],
     isTaskExist: false, 
     isDarkMode: false,
-    draggedTask: [],
     formatDate: null, 
     swalColor: null,
     swalBg: null,
@@ -33,6 +33,7 @@ const store = (set) => ({
         icon: 'bi bi-check-circle'
         }
     ],
+    activeTask: null,
 
     setProjName: (projTitle) => set({
         projName: projTitle
@@ -85,16 +86,6 @@ const store = (set) => ({
         isTaskExist: false
     }, false, 'isTaskExist'),
 
-    setDraggedTask: (id, title, description) => set(
-        {draggedTask: [{
-            id: id, 
-            title: title, 
-            description: description,
-        }]},
-        false, 
-        'setDraggedTask'
-    ), //set or determine task that has been dragged
-
     //move task or change it's previous state to it's dropped state
     moveTask: (id, title, description, state, date) => set(
         store => ({ 
@@ -134,7 +125,61 @@ const store = (set) => ({
             showConfirmButton: false,
             timer: oras
         });
-    }//display alert messages
+    },//display alert messages
+
+    onDragStart: (e) => {
+        if (e.active.data.current?.type === "Task") {
+            set({
+                activeTask: e.active.data.current.task
+            })
+            return
+        }
+    },
+    
+    onDragEnd: () => set({
+        activeTask: null
+    }),
+    
+    onDragOver: (e, tasks) => {
+        const { active, over } = e
+
+        if (!over) return
+
+        const activeTaskId = active.id
+        const overTaskId = over.id
+
+        if (activeTaskId === overTaskId) return
+
+        const isActiveATask = active.data.current?.type === 'Task' 
+        const isOverATask = over.data.current?.type === 'Task'
+
+        if (!isActiveATask) return
+
+        //Dropping a task over another task
+        if (isActiveATask && isOverATask) {
+            const activeIndex = tasks.findIndex(task => task.id === activeTaskId)
+            const overIndex = tasks.findIndex(task => task.id === overTaskId)
+
+            tasks[activeIndex].state = tasks[overIndex].state
+
+            set({
+                tasks: arrayMove(tasks, activeIndex, overIndex)
+            })
+        }
+
+        const isOverAColumn = over.data.current?.type === 'Column'
+
+        //Dropping a taks over a column
+        if (isActiveATask && isOverAColumn) {
+            const activeIndex1 = tasks.findIndex(task => task.id === activeTaskId)
+
+            tasks[activeIndex1].state = overTaskId
+
+            set({
+                tasks: arrayMove(tasks, activeIndex1, activeIndex1)
+            })
+        }
+    }
 
 })
 
