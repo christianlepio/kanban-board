@@ -89,7 +89,12 @@ const Task = ({ item, dropTask, setDropTask }) => {
         onDragEnd={handleDragEnd} 
       >
         <div className="card-body">
-          <h6 className="card-title fs-6 text-secondary">{task.title}</h6>
+          <div className='d-flex justify-content-between'>
+            <div className='align-self-center'><h6 className="card-title fs-6 text-secondary">{task.title}</h6></div>
+            <div className='rounded-3 border align-self-start'>
+              <i className="fa-solid fa-grip-vertical text-secondary mt-1 mx-2 lh-sm"></i>
+            </div>
+          </div>          
           <p className="card-text fs-6 fst-italic">{task.description.trim().length !== 0 ? 
             task.description : 'Description...'}
           </p>
