@@ -91,7 +91,7 @@ const Task = ({ item }) => {
     return <div 
             ref={setNodeRef}
             style={style}
-            className={'my-2 rounded-3 shadow-sm task-drag mx-2 ' + (isDarkMode ? 'bg-dark' : 'bg-light')}
+            className={'my-2 rounded-3 shadow-sm task-drag mx-2 ' + (isDarkMode ? 'bg-dark' : 'border')}
         >
 
         </div>

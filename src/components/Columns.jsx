@@ -58,7 +58,7 @@ const Columns = ({state}) => {
                     </div>
 
                     <div 
-                        className={"overflow-y-auto taskColus taskCol mt-3 py-1 rounded-3 rounded-3 column "+(state)} 
+                        className={(isDarkMode ? 'taskCol' : 'bg-light')+" overflow-y-auto taskColus mt-3 py-1 rounded-3 rounded-3 column "+(state)} 
                     >
                         <SortableContext items={tasksIds} strategy={verticalListSortingStrategy}>
                             {tasks.length > 0 ?
