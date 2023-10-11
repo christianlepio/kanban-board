@@ -91,7 +91,7 @@ const Task = ({ item }) => {
     return <div 
             ref={setNodeRef}
             style={style}
-            className='border rounded-3 task-drag'
+            className={'my-2 rounded-3 shadow-sm task-drag mx-2 ' + (isDarkMode ? 'bg-dark' : 'bg-light')}
         >
 
         </div>
@@ -102,7 +102,7 @@ const Task = ({ item }) => {
       <div 
         ref={setNodeRef}
         style={style}
-        className="card mt-2 border-light-subtle mb-3 shadow-sm"
+        className="card my-2 rounded-3 border-light-subtle shadow-sm mx-2"
       >
         <div className="card-body">
           <div className='d-flex justify-content-between'>
@@ -110,15 +110,15 @@ const Task = ({ item }) => {
             <div 
               {...attributes}
               {...listeners}
-              className='rounded-3 border align-self-start task-move'
+              className='rounded-3 align-self-start task-move'
             >
               <i className="fa-solid fa-grip-vertical text-secondary mt-1 mx-2 lh-sm"></i>
             </div>
           </div>  
-          <div className='overflow-y-auto mt-3' style={{maxHeight: '9vh', minHeight: '4vh'}}>        
-            <p className="card-text fs-6 fst-italic">{task.description.trim().length !== 0 ? 
+          <div className='overflow-y-auto mt-3' style={{maxHeight: '7vh', minHeight: '4vh'}}>        
+            <small><p className="card-text fst-italic">{task.description.trim().length !== 0 ? 
               task.description : 'Description...'}
-            </p>
+            </p></small>
           </div>
         </div>
         <div className="card-footer d-flex justify-content-between text-body-secondary">
@@ -208,7 +208,7 @@ const Task = ({ item }) => {
 
           </div>
           <div>
-            <i className={"bi bi-circle-fill lh-lg "+(task.state)}></i>
+            <i className={"bi bi-circle-fill lh-lg mx-2 "+(task.state)}></i>
           </div>
         </div>
       </div>

@@ -2,10 +2,6 @@
     cursor: grab !important;
 }
 
-/* .task.dropTask{
-    box-shadow: 2px 2px 5px red !important;
-} */
-
 .To-Do {
     color: #D67BFF !important;
 }
@@ -38,5 +34,5 @@
 }
 
 .task-drag {
-    height: 26vh;
+    height: 18vh;
 }

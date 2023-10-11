@@ -1,11 +1,3 @@
-.column {
-    border: dashed transparent 4px;
-}
-
-.column.drop {
-    border-color: rgb(223, 220, 220);
-}
-
 .border-top.To-Do {
     border-color: #D67BFF !important;
 }
@@ -27,8 +19,8 @@
 }
 
 .taskColus {
-    max-height: 65vh;
-    min-height: 65vh;
+    max-height: 70vh;
+    min-height: 70vh;
 }
 
 /* `sm` applies to x-small devices (portrait phones, less than 576px) */

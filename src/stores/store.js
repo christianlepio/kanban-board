@@ -141,6 +141,7 @@ const store = (set) => ({
     }),
     
     onDragOver: (e, tasks) => {
+        
         const { active, over } = e
 
         if (!over) return
