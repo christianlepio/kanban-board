@@ -43,7 +43,7 @@ const Columns = ({state}) => {
             <div ref={setNodeRef} className="col-md-3">
                 <div className='my-4'>
                     <div 
-                        className={(isDarkMode ? 'taskCol' : null)+" rounded-3 shadow-sm border-top border-4 "+(state)} 
+                        className={(isDarkMode ? 'taskCol' : null)+" rounded-3 border shadow-sm border-top "+(state)} 
                         
                     >
                         <div className='d-flex justify-content-between py-3 px-3'>

@@ -1,3 +1,7 @@
+.border-top.projNameCard {
+    border-top: 5px solid var(--bs-info) !important;
+}
+
 .toggleBtn{
     height: 1.5rem !important;
     width: 3rem !important;

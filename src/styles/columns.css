@@ -1,17 +1,17 @@
 .border-top.To-Do {
-    border-color: #D67BFF !important;
+    border-top: 4px solid #D67BFF !important;
 }
 
 .border-top.In.Progress {
-    border-color: #FFB6D9 !important;
+    border-top: 4px solid #FFB6D9 !important;
 }
 
 .border-top.For.Testing {
-    border-color: #FEFFAC !important;
+    border-top: 4px solid #FEFFAC !important;
 }
 
 .border-top.Done {
-    border-color: #45FFCA !important;
+    border-top: 4px solid #45FFCA !important;
 }
 
 .taskCol {

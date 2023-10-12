@@ -48,7 +48,7 @@ const ProjName = () => {
 
     return (
         <>
-            <div className={'rounded-3 px-3 shadow-sm mt-3 border-top border-info border-5 ' + (isDarkMode ? 'projHeader' : null)}>
+            <div className={'rounded-3 px-3 shadow-sm mt-3 border-top border projNameCard ' + (isDarkMode ? 'projHeader' : null)}>
                 <div className='d-flex justify-content-between border-bottom py-2'>
                     <div className='pt-1'>
                         <span className={'fs-5 fw-bold ' + (!isDarkMode ? 'text-secondary' : null)}><i className="bi bi-kanban fs-5"></i> KANBAN</span>
