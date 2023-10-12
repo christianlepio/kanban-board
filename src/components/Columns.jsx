@@ -9,22 +9,22 @@ import {
 } from '@dnd-kit/sortable'
 
 const Columns = ({state}) => {
-    let { tasks } = useStore(store => store)
+    let { tasks } = useStore(store => store) //get tasks to zustand store
 
     const { isDarkMode } = useStore(store => store)
     const { icon } = useStore(store => 
         store.arrState.find(item => item.state === state )
-    )
+    ) //find item with a specific state
 
     tasks = useMemo(
         () => tasks.filter(task => task.state === state),
         [tasks, state]
-    )
+    ) //to memoize tasks
 
-    const tasksIds = useMemo(() => tasks.map(task => task.id), [tasks])
+    const tasksIds = useMemo(() => tasks.map(task => task.id), [tasks]) //to memoize task ids used for sortable context
 
     const taskCount = useMemo(() => {
-        return tasks.reduce((total) => total + 1, 0)
+        return tasks.reduce((total) => total + 1, 0) //to get total using reduce function
     },[tasks, state])
 
     const { 
@@ -35,10 +35,11 @@ const Columns = ({state}) => {
             type: "Column", 
             state,
         }
-    })
+    }) //get setNodeRef from useSortable dnd hook
 
     return (
         <>  
+            {/**set node ref to column you want to drop task */}
             <div ref={setNodeRef} className="col-md-3">
                 <div className='my-4'>
                     <div 
@@ -60,7 +61,10 @@ const Columns = ({state}) => {
                     <div 
                         className={(isDarkMode ? 'taskCol' : 'bg-light shadow-sm border border-light-subtle')+" overflow-y-auto taskColus mt-3 py-1 rounded-3 rounded-3 column "+(state)} 
                     >
-                        <SortableContext items={tasksIds} strategy={verticalListSortingStrategy}>
+                        <SortableContext //all content inside will be sortable
+                            items={tasksIds} //assign items to sorted
+                            strategy={verticalListSortingStrategy} //to get dynamic size of task vertically
+                        >
                             {tasks.length > 0 ?
                                 tasks.map((item) => {
                                     return (

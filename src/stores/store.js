@@ -134,7 +134,7 @@ const store = (set) => ({
             })
             return
         }
-    },
+    }, //set active task on DragStart
     
     onDragEnd: () => set({
         activeTask: null
@@ -142,7 +142,7 @@ const store = (set) => ({
     
     onDragOver: (e, tasks) => {
         
-        const { active, over } = e
+        const { active, over } = e //get active and over content from event
 
         if (!over) return
 

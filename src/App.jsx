@@ -3,7 +3,11 @@ import Columns from './components/Columns'
 import ProjName from './components/ProjName'
 import Task from './components/Task'
 import { useStore } from './stores/store' 
-import { DndContext, DragOverlay, pointerWithin } from '@dnd-kit/core'
+import { 
+  DndContext, 
+  DragOverlay, 
+  pointerWithin 
+} from '@dnd-kit/core'
 import { createPortal } from 'react-dom'
 
 function App() {
@@ -15,7 +19,7 @@ function App() {
     onDragStart, 
     onDragEnd, 
     onDragOver
-   } = useStore(store => store)
+   } = useStore(store => store) //this is how to call variable/functions in zustand
 
   return (
     <>
@@ -25,11 +29,11 @@ function App() {
           {projName !== null &&
             <div className="row justify-content-center">
               <DndContext
-                collisionDetection={pointerWithin}
+                collisionDetection={pointerWithin} //dnd algo, drop within the cursor pointer 
                 onDragStart={(e)=>onDragStart(e)}
                 onDragEnd={onDragEnd} 
                 onDragOver={(e)=>onDragOver(e, tasks)}
-              >
+              > {/* initialize drag and drop context */}
                 {arrState.length > 0 ?
                   arrState.map((col, i) => (
                     <Columns 
@@ -39,15 +43,16 @@ function App() {
                   ))
                   : null
                 }                
-                {createPortal(
-                  <DragOverlay>
+                {createPortal( //this is usually used for modal or popovers
+                  //for content shadow effect
+                  <DragOverlay> 
                     {activeTask && (
-                        <Task 
-                            item={activeTask}
-                        />
+                      <Task 
+                        item={activeTask}
+                      />
                     )}
                   </DragOverlay>, 
-                  document.body
+                  document.body //to popover the body
                 )}
               </DndContext>
             </div>

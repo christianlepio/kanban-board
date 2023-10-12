@@ -69,11 +69,11 @@ const Task = ({ item }) => {
 
   const { 
     setNodeRef, 
-    attributes, 
-    listeners, 
-    transform, 
-    transition, 
-    isDragging 
+    attributes, //used for dragging
+    listeners, //used for dragging
+    transform, //used for css
+    transition, //used for css
+    isDragging //returns true/false
   } = useSortable({
       id: task.id,
       data: {
@@ -101,14 +101,15 @@ const Task = ({ item }) => {
     <>
       <div 
         ref={setNodeRef}
-        style={style}
+        style={style} //apply styling
         className="card my-2 rounded-3 border-light-subtle shadow-sm mx-2"
       >
         <div className="card-body">
           <div className='d-flex justify-content-between'>
             <div className='align-self-center'><h6 className="card-title fs-6 text-secondary">{task.title}</h6></div>
             <div 
-              {...attributes}
+              //apply these to draggable content
+              {...attributes} 
               {...listeners}
               className='rounded-3 align-self-start task-move'
             >

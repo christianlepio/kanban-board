@@ -25,7 +25,7 @@ const AddTaskModal = ({projModId, indicator}) => {
         setTimeout(() => {
             isModalShow !== null && taskRef.current.focus()
         }, 500)
-    }, [indicator])
+    }, [indicator]) //to focus on input field after 500 milliseconds when state indicator changes
 
     useEffect(() => {     
         const charLen = taskTitle.trim().length
@@ -47,7 +47,7 @@ const AddTaskModal = ({projModId, indicator}) => {
             else
                 setIsModalClose(true)
         }
-    }, [taskTitle, isTaskExist, tasks, indicator])
+    }, [taskTitle, isTaskExist, tasks, indicator]) //title input validation
 
     const submitTask = (e) => {
         e.preventDefault()
@@ -70,7 +70,7 @@ const AddTaskModal = ({projModId, indicator}) => {
                 taskRef.current.focus()
         }else
             taskRef.current.focus()
-    }
+    }//submit handler
 
     return (
         <>
